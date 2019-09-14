@@ -10,6 +10,8 @@
 输入两个数 i 和 j，你的任务是计算 i 到 j（包含 i 和 j）之间的整数中，循环节长度的最大值。
 */
 
+
+//由于本题中给出的上限不算太大，int足可以解决，但是当上限到达一定值的时候，就需要考虑溢出问题，此时可选用long 或 long long 甚至大数数组来解决
 #include<iostream>
 using namespace std;
 
