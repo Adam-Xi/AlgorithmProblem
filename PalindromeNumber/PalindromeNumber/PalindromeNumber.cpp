@@ -1,3 +1,7 @@
+#if 0
+
+
+
 /*
 问题描述
 　　123321是一个非常特殊的数，它从左边读和从右边读是一样的。
@@ -56,6 +60,37 @@ int main()
 	int n = 0;
 	cin >> n;
 	PalindromeNumber(n);
+
+	return 0;
+}
+
+#endif
+
+/*
+问题描述
+　　1221是一个非常特殊的数，它从左边读和从右边读是一样的，编程求所有这样的四位十进制数。
+输出格式
+  　按从小到大的顺序输出满足条件的四位十进制数。
+
+*/
+
+#include<iostream>
+using namespace std;
+
+void PalindromeNumber()
+{
+	for (int num = 1000; num < 10000; ++num)
+	{
+		if ((num % 10 == num / 1000 % 10) && (num / 100 % 10 == num / 10 % 10))
+		{
+			cout << num << endl;
+		}
+	}
+}
+
+int main()
+{
+	PalindromeNumber();
 
 	return 0;
 }
