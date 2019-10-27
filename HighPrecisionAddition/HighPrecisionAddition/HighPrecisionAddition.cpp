@@ -24,12 +24,11 @@ using namespace std;
 
 int main()
 {
-	int a[401], alen;
-	int b[401], blen;
-	int c[400], clen;
-	char s[400], slen;
-	int sa, sb;
-	int i, j;
+	int a[401] = { 0 }, alen;
+	int b[401] = { 0 }, blen;
+	int c[400] = { 0 }, clen;
+	char s[400];
+	int i;
 	scanf("%s", s);
 	alen = strlen(s);
 	for (i = 1; i <= alen; ++i)
