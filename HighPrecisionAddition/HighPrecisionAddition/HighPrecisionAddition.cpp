@@ -17,11 +17,26 @@
 	20100122203011233454668012
 
 */
+
+
+#if 0
+
 #pragma warning (disable:4996)
 #include<iostream>
 using namespace std;
 #include<cstring>
 
+//思想：
+//输入处理：
+//由于一次输入一行的数据，但是并不知道数据的具体长度，没办法通过for循环来控制整形数组的大小，
+//所以另辟蹊径，将一次的输入看做一个字符数组，回车就是终止条件，然后在给字符数组求长度就是一次输入的整型个数
+//然后将字符数组的每一项减去字符0的ASCII码即48，就是他们分别对应的整数大小，并且由于输入的字符串逆序，要使整型数组从左向右，位数依次增大
+
+//加法处理：
+//先判断两个整型数组的大小，让结果数组的长度等于最长的操作数数组的长度，然后以该长度为基准，从最低位开始按位相加，即从整形数组的0号下标开始，往最大下标进行
+
+//输出处理
+//逆序输出
 int main()
 {
 	int a[401] = { 0 }, alen;
@@ -70,6 +85,63 @@ int main()
 		printf("%d", c[i]);
 	}
 	printf("\n");
+
+	return 0;
+}
+
+#endif
+
+
+#pragma warning (disable:4996)
+#include<iostream>
+using namespace std;
+#include<cstring>
+
+int main()
+{
+	int a[401] = { 0 }, alen;
+	int b[401] = { 0 }, blen;
+	int c[401] = { 0 }, clen;
+	char s[400] = { 0 };
+	int i;
+
+	scanf("%s", s);  //s数组从0号下标开始存放整型数值,从左到右，从高位到低位
+	alen = strlen(s);
+	for (i = 1; i <= alen; ++i)
+	{
+		a[i] = s[alen - i] - '0';  //a数组从1号下标开始存放整型数值，从左到右，从低位到高位
+	}
+
+	scanf("%s", s);
+	blen = strlen(s);
+	for (i = 1; i <= blen; ++i)
+	{
+		b[i] = s[blen - i] - '0';  //b数组从1号下标开始存放整型数值，从左到右，从低位到高位
+	}
+	
+	if (alen > blen)
+	{
+		clen = alen;
+	}
+	else
+	{
+		clen = blen;
+	}
+
+	for (i = 1; i <= clen; ++i)
+	{
+		c[i] = a[i] + b[i];  //加法处理，两个相加放入c中
+		if (c[i] >= 10)  //检测是否需要进位
+		{
+			c[i] = c[i] + c[i] % 10;
+			c[i + 1] = c[i] / 10;
+		}
+	}
+	for (i = clen; i > 0; --i)
+	{
+		cout << c[i];
+	}
+	cout << endl;
 
 	return 0;
 }
