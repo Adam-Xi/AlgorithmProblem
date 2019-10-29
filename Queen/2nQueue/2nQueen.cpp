@@ -27,90 +27,76 @@
 	0
 
 */
-
-
-
-#include <iostream>
-#include<cmath>
+#include<iostream>
 using namespace std;
+#include<cmath>
 
-int n;
-int m[9][9];
-int blackPos[9];
-int whitePos[9];
-int ans = 0;
+int n = 0;  //2n皇后
+int m[10][10];  //地图
+int blackPos[10], whitePos[10];  //黑白皇后的选点集，下标表示行，通过下标访问的值为列
+int _count = 0;  //方法计数器
 
-// 判断当前能否放置皇后 
-bool isSafe(int pos[], int row) 
+bool IsAttack(int pos[], int point_r, int point_c)  //当前点是否冲突
 {
-	for (int i = 0; i < row; i++) 
+	for (int row = 0; row < point_r; row++)
 	{
-		if (pos[i] == pos[row] || abs(pos[i] - pos[row]) == abs(i - row)) 
+		if (point_c == pos[row] || abs(point_c - pos[row]) == point_r - row)
 		{
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
-// 对黑皇后的放置进行深搜 
-void blackDfs(int row) 
+//黑皇后落子
+void SetBlack(int row)
 {
-	if (row == n) 
+	if (row == n)
 	{
-		// 如果已经放置完成了n个黑皇后, 那么摆放的方法加1 
-		ans++;
+		//黑皇后已落了n个子，计数器+1
+		_count++;
 		return;
 	}
-	else 
+	//深度优先遍历搜索 黑皇后选定落子序列
+	for (blackPos[row] = 0; blackPos[row] < n; blackPos[row]++)
 	{
-		for (blackPos[row] = 0; blackPos[row] < n; blackPos[row]++) 
+		if (!IsAttack(blackPos, row, blackPos[row]) && m[row][blackPos[row]] == 1 && blackPos[row] != whitePos[row])
 		{
-			// 如果当前位置没有与其他黑皇后发生冲突, 当前可以放置黑皇后而且当前的位置没有放置白皇后 
-			if (isSafe(blackPos, row) && m[row][blackPos[row]] == 1 & blackPos[row] != whitePos[row]) 
-			{
-				blackDfs(row + 1);
-			}
+			SetBlack(row + 1);
 		}
 	}
 }
 
-// 对白皇后的放置进行深搜 
-void whiteDfs(int row) 
+//白皇后落子
+void SetWhite(int row)
 {
-	if (row == n) 
+	if (row == n)
 	{
-		// 如果已经放置完成了n个白皇后, 则进行放置黑皇后 
-		blackDfs(0);
+		//白皇后已经落了n个子，即白皇后的一种序列已经确定，在此基础上对黑皇后的落子集合进行搜索
+		SetBlack(0);
 		return;
 	}
-	else 
+	//深度优先遍历搜索，查找白皇后落子的序列
+	for (whitePos[row] = 0; whitePos[row] < n; whitePos[row]++)
 	{
-		for (whitePos[row] = 0; whitePos[row] < n; whitePos[row]++) 
+		if (!IsAttack(whitePos, row, whitePos[row]) && m[row][whitePos[row]] == 1)
 		{
-			// 当前位置没有与其他白皇后冲突且当前位置能放置 
-			if (isSafe(whitePos, row) && m[row][whitePos[row]] == 1) 
-			{
-				whiteDfs(row + 1);
-			}
+			SetWhite(row + 1);
 		}
 	}
 }
 
-
-int main() 
+int main()
 {
 	cin >> n;
-	for (int i = 0; i < n; i++) 
+	for (int i = 0; i < n; ++i)
 	{
-		for (int j = 0; j < n; j++) 
+		for (int j = 0; j < n; ++j)
 		{
 			cin >> m[i][j];
 		}
 	}
-	whiteDfs(0);
-	cout << ans << endl;
-
+	SetWhite(0);
+	cout << _count << endl;
 	return 0;
 }
-
