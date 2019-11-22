@@ -14,6 +14,13 @@
 //答案是 min(leftSum-leftMin+1,rightSum-rightMin+1)，这个确定以后，
 //只需要在另一边随便选择一个就能够保证至少有一种颜色匹配了
 //另外要注意某种颜色手套数为0的情况
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+
 class Gloves {
 public:
 	int findMinimum(int n, vector<int> left, vector<int> right) {
@@ -34,3 +41,25 @@ public:
 		return sum + min(leftSum - leftMin + 1, rightSum - rightMin + 1) + 1;
 	}
 };
+
+int main()
+{
+	int n;
+	cin >> n;
+	vector<int> left(n, 0);
+	vector<int> right(n, 0);
+
+	for (int i = 0; i < n; i++)
+	{
+		cin >> left[i];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cin >> right[i];
+	}
+
+	Gloves g;
+	cout << g.findMinimum(n, left, right) << endl;
+
+	return 0;
+}
