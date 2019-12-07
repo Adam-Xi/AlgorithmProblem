@@ -88,3 +88,59 @@ public:
 }
 
 #endif 
+
+//正确代码
+/**
+* Definition for binary tree
+* struct TreeNode {
+*     int val;
+*     TreeNode *left;
+*     TreeNode *right;
+*     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+* };
+*/
+
+/*
+思路：
+1、在前序序列中把首元素并作为当前根的值，在中序序列中找该值对应的下标位置flag
+2、分别将先序序列、中序序列以flag为基准划分为两个子序列，左子序列、右子序列
+3、递归，分别实现左右子节点的查找
+*/
+class Solution {
+public:
+	TreeNode* reConstructBinaryTree(vector<int> pre, vector<int> vin) {
+		if (pre.size() < 1 || vin.size() < 1)
+		{
+			return nullptr;
+		}
+		vector<int> pre_left;
+		vector<int> pre_right;
+		vector<int> vin_left;
+		vector<int> vin_right;
+
+		TreeNode *head = new TreeNode(pre[0]);
+		int flag = 0;
+		for (int i = 0; i < vin.size(); i++)
+		{
+			if (vin[i] == head->val)
+			{
+				flag = i;
+				break;
+			}
+		}
+		for (int i = 0; i < flag; i++)
+		{
+			pre_left.push_back(pre[i + 1]);
+			vin_left.push_back(vin[i]);
+		}
+		for (int i = flag + 1; i < vin.size(); i++)
+		{
+			pre_right.push_back(pre[i]);
+			vin_right.push_back(vin[i]);
+		}
+		head->left = reConstructBinaryTree(pre_left, vin_left);
+		head->right = reConstructBinaryTree(pre_right, vin_right);
+
+		return head;
+	}
+};
